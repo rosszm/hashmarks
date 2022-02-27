@@ -1,0 +1,38 @@
+/// This module contains global / base styling for the application.
+
+@import url('https://fonts.googleapis.com/css2?family=Source+Sans+3&family=Offside&display=swap');
+@import url('https://db.onlinewebfonts.com/c/105007d99d9df64c50cc24d696d79555?family=Graphik+Web+Regular');
+
+
+body {
+  margin: 0;
+  
+  font-family: 'Graphik Web Regular', sans-serif;
+  color: black;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+h1 {
+  font-family: 'Offside', cursive;
+  font-size: 44px;
+}
+h2 { font-size: 36px; }
+h3 { font-size: 28px; }
+h4 { font-size: 20px; }
+p { font-size: 16px; }
+button { font-size: 14px; }
+
+input {
+  border: none;
+  font-size: 16px;
+  border-radius: 2px;
+  padding: 8px;
+  background-color: #f4f4f4;
+  color: black;
+}
+

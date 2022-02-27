@@ -1,16 +1,13 @@
 import { Route, Routes } from "react-router-dom";
-import Home from "./screens/Home";
-import Player from "./screens/Player";
+import Home from "./screens/home";
+import Player from "./screens/player";
 
 function App() {
   return (
-    <>
-      <h1>AppBar</h1>
-      <Routes>
-        <Route path="/" element={<Home />} />
-        <Route path="player" element={<Player />} />
-      </Routes>
-    </>
+    <Routes>
+      <Route path="/" element={<Home />} />
+      <Route path="player" element={<Player />} />
+    </Routes>
   );
 }
 

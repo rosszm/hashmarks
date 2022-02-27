@@ -1,0 +1,109 @@
+/// This module contains all the styling for the player search component.
+
+@use "../../styles/media.scss";
+
+
+.search { 
+    width: 100%; 
+    margin-left: -4px;
+}
+
+/// The base search box
+.search-box {
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #8c8c8c;
+    height: 40px;
+    border: 2px solid #0a84ff;
+    border-radius: 4px;
+    //outline: auto;
+    background-color: white;
+    box-shadow: 0 3px 4px rgba(0, 0, 0, 0.2);
+    z-index: 1;
+}
+
+/// The search icon
+.search-icon {
+    width: 40px;
+    height: 40px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    svg {
+        width: 20px;
+        height: 20px;
+    }
+}
+
+/// The search box input
+.search-input {
+    flex: 10;
+    border: none;
+    background-color: transparent;
+    padding: 0;
+    padding-left: 12px;
+    padding-right: 12px;
+
+    &:focus { outline: none; }
+}
+
+/// The clear search button
+.clear-icon svg:hover path { fill: #3e3e3e; }
+
+/// The search suggestions
+.search-suggestion-box {
+    width: calc(100% - 80px);
+    margin-left: 40px;
+    margin-right: 40px;
+    padding: 0;
+    border-bottom-left-radius: 8px;
+    border-bottom-right-radius: 8px;
+    border-collapse: collapse;
+    box-shadow: 0 2px 3px rgba(0, 0, 0, 0.2);
+    z-index: 0;
+    user-select: none;
+
+    @include media.mobile {
+        margin: 0;
+        margin-left: 2px;
+        width: 100%;
+    }
+    @include media.tablet {
+        margin: 0;
+        margin-left: 2px;
+        width: 100%;
+    }
+
+    th {
+        background-color: #4d8ecf;
+        color: #fff;
+        font-weight: normal;
+        &:first-child {  text-align: left;}
+        padding: 2px 12px;
+    }
+}
+
+.search-suggestion {
+    td {
+        border-top: 1px solid #dcdcdc;
+        padding: 15px;
+        
+        &:first-child { text-align: left; }
+    }
+
+    &:first-child td { border-top: none; }
+    &:last-child {
+        border-bottom-left-radius: 4px;
+        border-bottom-right-radius: 4px;
+    }
+}
+
+.suggestion-hover {
+    cursor: pointer;
+    background-color: #dcdcdc8a;
+}
+
+

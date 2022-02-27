@@ -1,0 +1,40 @@
+@use "../styles/media.scss";
+
+
+$max-width: 1152px;
+
+.container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+
+#splash {
+    width: 60vw;
+    max-width: $max-width;
+    padding-top: 30px;
+    justify-content: flex-start;
+    text-align: center;
+
+    @include media.mobile { width: 85vw; }
+    @include media.tablet { width: 75vw; }
+    @include media.desktop { padding-top: 15vh; }
+}
+
+.title {
+    h1 {
+        margin: 0;
+        font-weight: bold;
+        font-size: 750%;
+        color: #d41131;
+
+        @include media.mobile { font-size: 15vw; }
+    }
+    h2 { 
+        margin-bottom: 50px; 
+
+        @include media.mobile { font-size: 20px; }
+    }
+}
+

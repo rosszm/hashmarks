@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { NhlStatsClient, Play, ScheduleParams } from "../common/NhlApi";
+import { NhlStatsClient, Play, ScheduleParams } from "../common/nhl-api/src/stats";
 
 
 function Player() {
@@ -21,6 +21,7 @@ function Player() {
      * parameters.
      * 
      * @param params the parameters for the NHL stats API
+     * @post Sets `goals` to a new state
      */
     async function setGoalsFromNhlApi(params: ScheduleParams) {
       let games = await nhlStatsClient.getSchedule(params).then(games => {
