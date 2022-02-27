@@ -2,6 +2,8 @@
  * This module consists of several utility functions and structures that help in querying the API.
  */
 
+import { Parameters } from './base';
+
 
 /** The different types of games. */
 export enum GameType {
@@ -39,4 +41,18 @@ export enum PlayType {
   Fight = "FIGHT",
   Takeaway = "TAKEAWAY",
   BlockedShot = "BLOCKED_SHOT",
+}
+
+/** 
+ * Returns an HTTP query string from a set of parameters.
+ */
+export function getQueryString(params?: Parameters): string {
+  let str = "";
+  if (!params) return str;
+  let entries = Object.entries(params);
+  for (let i=0; i < entries.length; i++) {
+    i === 0 ? str += '?' : str += '&';
+    str += `${entries[i][0]}=${entries[i][1]}`
+  }
+  return str;
 }

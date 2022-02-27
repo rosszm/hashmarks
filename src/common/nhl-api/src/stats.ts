@@ -1,16 +1,12 @@
 /**
- * This module is an abstraction on the public NHL API. Note that this does not cover the entire
- * NHL API, only the parts which are required for its use within the hashmarks app.
- * 
- * This module is is partially inspired by Andre Fischbacher's 
- * [Nhl.Api](https://github.com/Afischbacher/Nhl.Api) implementation in C#.
- * Notable mentions also include Drew Hynes' 
- * [NHL API documentation](https://gitlab.com/dword4/nhlapi)
+ * This module consists of all code that relates to the NHL Stats API. This includes the 
+ * `NhlStatsClient` that is used for querying the API, as well as several interfaces to improve
+ * clarity.
  */
 
+ import { Parameters } from "./base";
+ import { getQueryString } from "./util";
 
-/** The base interface for all NHL API query string parameters */
-interface Parameters {}
 
 /** The schedule query string parameters. */
 export interface ScheduleParams extends Parameters {
@@ -70,7 +66,7 @@ export interface Play {
 /**
  * NHL Stats API Client.
  * 
- * This client wraps the NHL Stats API and provides useful functions to query data.
+ * This client wraps the NHL Stats API and provides useful methods to query stats data.
  */
 export class NhlStatsClient {
   /** The base URI of the Stats API. */
@@ -102,7 +98,6 @@ export class NhlStatsClient {
    * Retrieves a schedule of games from the API based on a set of parameters.
    * 
    * @param params the query parameters
-   * 
    * @returns a promise to a collection of games.
    */
   getSchedule(params?: ScheduleParams): Promise<Game[]> {
@@ -122,7 +117,12 @@ export class NhlStatsClient {
     });
   }
 
-
+  /**
+   * Retrieves all the plays/events in a given game from the API.
+   * 
+   * @param gamePk the game primary key
+   * @returns the game play/event data
+   */
   getPlays(gamePk: number): Promise<Plays> {
     return fetch(`${this._uri}/api/${this.version}/game/${gamePk}/feed/live`)
       .then(response => {
@@ -133,27 +133,4 @@ export class NhlStatsClient {
       })
       .then(game => game.liveData.plays);
   }
-}
-
-
-export class NhlSuggestApi {
-  _uri = "https://suggest.svc.nhl.com/svc/suggest";
-  version: string;
-
-  constructor(version: string) {
-    this.version = version
-  }
-
-}
-
-/** Returns an HTTP query string from a set of parameters. */
-function getQueryString(params?: Parameters): string {
-  let str = "";
-  if (!params) return str;
-  let entries = Object.entries(params);
-  for (let i=0; i < entries.length; i++) {
-    i === 0 ? str += '?' : str += '&';
-    str += `${entries[i][0]}=${entries[i][1]}`
-  }
-  return str;
 }
