@@ -1,18 +1,9 @@
 @use "../styles/media.scss";
+@use "../styles/layout.scss";
 
-
-$max-width: 1152px;
-
-.container {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-}
-
-#splash {
+.splash {
     width: 60vw;
-    max-width: $max-width;
+    max-width: layout.$max-width;
     padding-top: 30px;
     justify-content: flex-start;
     text-align: center;
@@ -22,19 +13,20 @@ $max-width: 1152px;
     @include media.desktop { padding-top: 15vh; }
 }
 
-.title {
+.splash-title {
     h1 {
         margin: 0;
         font-weight: bold;
-        font-size: 750%;
+        font-size: 700%;
         color: #d41131;
 
-        @include media.mobile { font-size: 15vw; }
+        @include media.mobile { font-size: 14vw; }
     }
     h2 { 
+        margin-top: 0;
         margin-bottom: 50px; 
 
-        @include media.mobile { font-size: 20px; }
+        @include media.mobile { font-size: 4.5vw; }
     }
 }
 

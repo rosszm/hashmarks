@@ -1,0 +1,10 @@
+/// This module contains styling for page layouts
+
+$max-width: 1152px;
+
+.container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
