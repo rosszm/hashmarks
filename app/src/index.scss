@@ -1,12 +1,11 @@
 /// This module contains global / base styling for the application.
 
-@import url('https://db.onlinewebfonts.com/c/105007d99d9df64c50cc24d696d79555?family=Graphik+Web+Regular');
-@import url('https://fonts.googleapis.com/css2?family=Quantico&display=swap');
+@use "./styles/fonts.scss";
 
 body {
   margin: 0;
   
-  font-family: 'Graphik Web Regular', sans-serif;
+  font-family: 'Rubik', sans-serif;
   color: black;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
