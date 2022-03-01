@@ -6,7 +6,7 @@ import { NotFound } from "./screens/error"
 function App() {
   return (
     <Routes>
-      <Route path="hashmarks">
+      <Route path="/">
         <Route index element={<Home />} />
         <Route path="player" element={<Player />} />
         <Route path="*" element={<NotFound />} />
