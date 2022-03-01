@@ -4,7 +4,7 @@ A flask server that acts as a proxy for the NHL API.
 
 from flask import Flask, Response, abort, request
 from werkzeug.exceptions import HTTPException
-from flask_cors import CORS, cross_origin
+from flask_cors import CORS
 import requests
 import json
 
@@ -14,13 +14,11 @@ NHL_RECORDS_API = "https://records.nhl.com/site/api"
 NHL_SUGGEST_API = "https://suggest.svc.nhl.com/svc/suggest"
 
 app = Flask(__name__)
-cors = CORS(app)
-app.config["CORS_HEADERS"] = "Content-Type"
+cors = CORS(app, origins=["https://rosszm.github.io"])
 
 
 @app.route("/stats", defaults={"path": ""})
 @app.route('/stats/<path:path>')
-@cross_origin()
 def stats(path: str) -> Response:
     """
     Handles GET requests to the NHL Stats API.
@@ -30,7 +28,6 @@ def stats(path: str) -> Response:
 
 @app.route("/records", defaults={"path": ""})
 @app.route('/records/<path:path>')
-@cross_origin()
 def stats(path: str) -> Response:
     """
     Handles GET requests to the NHL Records API.
@@ -40,7 +37,6 @@ def stats(path: str) -> Response:
 
 @app.route("/suggest", defaults={"path": ""})
 @app.route('/suggest/<path:path>')
-@cross_origin()
 def suggest(path: str) -> Response:
     """
     Handles GET requests to the NHL Suggest API.

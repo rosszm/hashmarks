@@ -83,7 +83,7 @@ export class NhlStatsClient {
    * @returns a promise to a collection of teams.
    */
   getTeams(): Promise<Team[]> {
-    return fetch(`${this._uri}/api/${this.version}/teams`)
+    return fetch(`${this._uri}/${this.version}/teams`)
       .then(response => {
         if (!response.ok) {
           throw new Error(response.statusText);
@@ -100,7 +100,7 @@ export class NhlStatsClient {
    * @returns a promise to a collection of games.
    */
   getSchedule(params?: ScheduleParams): Promise<Game[]> {
-    return fetch(`${this._uri}/api/${this.version}/schedule` + getQueryString(params))
+    return fetch(`${this._uri}/${this.version}/schedule` + getQueryString(params))
       .then(response => {
         if (!response.ok) {
           throw new Error(response.statusText);
@@ -123,7 +123,7 @@ export class NhlStatsClient {
    * @returns the game play/event data
    */
   getPlays(gamePk: number): Promise<Plays> {
-    return fetch(`${this._uri}/api/${this.version}/game/${gamePk}/feed/live`)
+    return fetch(`${this._uri}/${this.version}/game/${gamePk}/feed/live`)
       .then(response => {
         if (!response.ok) {
           throw new Error(response.statusText);

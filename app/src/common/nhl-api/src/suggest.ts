@@ -4,46 +4,10 @@
  */
 
 import {strict as assert} from "assert";
-import { getQueryString } from "./util";
 
 
 /**
- * NHL Suggest API Client.
- * 
- * This client wraps the NHL Suggest API and provides methods to retrieve player suggestions.
- */
- export class NhlSuggestClient {
-   /** The base URI of the Suggest API. Uses the API proxy server */
-  _uri = "https://hashmarks-api-proxy.herokuapp.com/suggest";
-  /** The version of the API */
-  version: string;
-
-  constructor(version: string) {
-    this.version = version
-  }
-
-  /**
-   * Retrieves active player suggestions from the NHL suggest API based on some search text.
-   * 
-   * @param text the search text
-   * @param max the maximum number of suggestions to return
-   * @returns a collection of `max` player suggestions
-   */
-  getActivePlayerSuggestions(text: string, max?: number): Promise<SuggestedPlayer[]> {
-    let queryString = getQueryString({name: text, max: max});
-    return fetch(`${this._uri}/${this.version}/minactiveplayers${queryString}`)
-      .then(response => {
-        if (!response.ok) {
-          throw new Error(response.statusText);
-        }
-        return response.json() as Promise<{suggestions: string[]}>;
-      })
-      .then(response => response.suggestions.map(SuggestedPlayer.fromString));
-  }
-}
-
-/**
- * An NHL Player
+ * An NHL Player Suggestion.
  */
  export class SuggestedPlayer {
   id: number;
@@ -70,8 +34,8 @@ import { getQueryString } from "./util";
   }
 
   /**
-   * Creates a new player object from a player suggestion string. Player suggestions strings
-   * are 
+   * Creates a new player object from a player suggestion string. Player suggestion strings
+   * must be same format as the suggestions received from the NHL Suggest API.
    * 
    * @param str the player suggestion string
    * @returns a player object
@@ -91,3 +55,39 @@ import { getQueryString } from "./util";
     })
   }
 }
+
+
+/**
+ * NHL Suggest API Client.
+ * 
+ * This client wraps the NHL Suggest API and provides methods to retrieve player suggestions.
+ */
+ export class NhlSuggestClient {
+   /** The base URI of the Suggest API. Uses the API proxy server */
+  _uri = "https://hashmarks-api-proxy.herokuapp.com/suggest";
+  /** The version of the API */
+  version: string;
+
+  constructor(version: string) {
+    this.version = version
+  }
+
+  /**
+   * Retrieves active player suggestions from the NHL suggest API based on some search text.
+   * 
+   * @param text the search text
+   * @param max the maximum number of suggestions to return
+   * @returns a collection of `max` player suggestions
+   */
+  getActivePlayerSuggestions(text: string, max?: number): Promise<SuggestedPlayer[]> {
+    return fetch(`${this._uri}/${this.version}/minactiveplayers/${text}/${max ? max : ''}`)
+      .then(response => {
+        if (!response.ok) {
+          throw new Error(response.statusText);
+        }
+        return response.json() as Promise<{suggestions: string[]}>;
+      })
+      .then(response => response.suggestions.map(SuggestedPlayer.fromString));
+  }
+}
+
