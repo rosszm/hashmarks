@@ -14,7 +14,7 @@ jobs:
         with:
           heroku_api_key: ${{secrets.HEROKU_API_KEY}}
           heroku_app_name: "hashmarks-api-proxy"
-          heroku_email: "rosszm@users.noreply.github.com"
+          heroku_email: "41898282+github-actions[bot]@users.noreply.github.com"
           appdir: "api-proxy"
   
   # This job builds the React application on gh pages
@@ -41,7 +41,7 @@ jobs:
 
       - name: Configure Environment
         run: |
-          git config user.email "rosszm@users.noreply.github.com"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
           git config user.name "GitHub Actions"
           git remote set-url origin https://x-access-token:${{secrets.GITHUB_TOKEN}}@github.com/${{github.repository}}
       - name: Install Dependencies
