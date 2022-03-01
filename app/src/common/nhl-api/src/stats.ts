@@ -62,15 +62,14 @@ export interface Play {
   };
 }
 
-
 /**
  * NHL Stats API Client.
  * 
  * This client wraps the NHL Stats API and provides useful methods to query stats data.
  */
 export class NhlStatsClient {
-  /** The base URI of the Stats API. */
-  private _uri: string = "https://statsapi.web.nhl.com";
+  /** The base URI of the Stats API. Uses the API proxy server */
+  private _uri: string = "https://hashmarks-api-proxy.herokuapp.com/stats";
   /** The version of the API */
   version: string;
 

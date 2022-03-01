@@ -4,6 +4,7 @@
  */
 
 import {strict as assert} from "assert";
+import { getQueryString } from "./util";
 
 
 /**
@@ -12,7 +13,9 @@ import {strict as assert} from "assert";
  * This client wraps the NHL Suggest API and provides methods to retrieve player suggestions.
  */
  export class NhlSuggestClient {
-  _uri = "https://suggest.svc.nhl.com/svc/suggest";
+   /** The base URI of the Suggest API. Uses the API proxy server */
+  _uri = "https://hashmarks-api-proxy.herokuapp.com/suggest";
+  /** The version of the API */
   version: string;
 
   constructor(version: string) {
@@ -27,7 +30,8 @@ import {strict as assert} from "assert";
    * @returns a collection of `max` player suggestions
    */
   getActivePlayerSuggestions(text: string, max?: number): Promise<SuggestedPlayer[]> {
-    return fetch(`${this._uri}/${this.version}/minactiveplayers/${text}/${max ? max : ""}`)
+    let queryString = getQueryString({name: text, max: max});
+    return fetch(`${this._uri}/${this.version}/minactiveplayers${queryString}`)
       .then(response => {
         if (!response.ok) {
           throw new Error(response.statusText);

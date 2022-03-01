@@ -11,18 +11,18 @@ import "./search.scss"
 export default function NhlPlayerSearch() {
   const [searchText, setSearchText] = useState("");
   const [players, setPlayers] = useState<SuggestedPlayer[]>([]);
-  const [selected, setSelected] = useState(0);
-  const [maxResults, setMaxResults] = useState(8);
+  const [selected, setSelected] = useState(0); // eslint-disable-line
+  const [maxResults, setMaxResults] = useState(8); // eslint-disable-line
   const minCharsForSuggestion = 3;
   
   // initialize references to handle the component focus
   const ref = React.useRef<HTMLDivElement>(null);
   const inputRef = React.useRef<HTMLInputElement>(null);
 
-  const nhlSuggestClient = new NhlSuggestClient("v1");
-
   // Update player suggestions
   useEffect(() => {
+    const nhlSuggestClient = new NhlSuggestClient("v1");
+
     /**
      * Updates the players state with the player suggestions from the NHL Suggest API based on 
      * some search text.
@@ -39,17 +39,13 @@ export default function NhlPlayerSearch() {
       }
     } 
     updatePlayerSuggestions(searchText);
-  }, [searchText])
+  }, [searchText, maxResults])
 
+  // On mount
   useEffect(() => {
     if(inputRef.current)
       inputRef.current.focus()
-  }, [])
-
-  // media listener
-  useEffect(() => {
-    
-  }, []);
+  }, []) // eslint-disable-line react-hooks/exhaustive-deps
 
   /**
    * Updates `searchText` to a new value provided by the change event.

@@ -1,0 +1,53 @@
+# Deploys the Application
+name: CI/CD Pipeline
+on:
+  push:
+    branches: [ master ]
+jobs:
+  # This job builds the API proxy server on Heroku
+  deploy-proxy-server:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - name: Deploy API Proxy Server to Heroku
+        uses: akhileshns/heroku-deploy@v3.12.12
+        with:
+          heroku_api_key: ${{secrets.HEROKU_API_KEY}}
+          heroku_app_name: "hashmarks-api-proxy"
+          heroku_email: "rosszm@users.noreply.github.com"
+          appdir: "api-proxy"
+  
+  # This job builds the React application on gh pages
+  deploy-react-app:
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: app
+        
+    strategy:
+      matrix:
+        node-version: [16.x]
+        
+    steps:
+      - uses: actions/checkout@v2
+        with:
+          ref: ${{ github.head_ref }}
+      - name: Use Node.js ${{matrix.node-version}}
+        uses: actions/setup-node@v2
+        with:
+            node-version: ${{matrix.node-version}}
+            cache: "yarn"
+            cache-dependency-path: "app/yarn.lock"
+
+      - name: Configure Environment
+        run: |
+          git config user.email "rosszm@users.noreply.github.com"
+          git config user.name "GitHub Actions"
+          git remote set-url origin https://x-access-token:${{secrets.GITHUB_TOKEN}}@github.com/${{github.repository}}
+      - name: Install Dependencies
+        run: yarn install
+      - name: Build React App
+        run: yarn build
+      - name: Deploy to Github Pages
+        run: |
+          yarn gh-pages -d build -m "build: ${{github.sha}}"

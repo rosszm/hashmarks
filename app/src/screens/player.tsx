@@ -3,10 +3,11 @@ import { NhlStatsClient, Play, ScheduleParams } from "../common/nhl-api/src/stat
 
 
 function Player() {
+  // eslint-disable-next-line 
   const [goals, setGoals] = useState<Play[]>([]);
   const [loading, setLoading] = useState(true);
   
-  const nhlStatsClient = new NhlStatsClient("v1");
+  const nhlStatsClient = new NhlStatsClient("v1"); 
 
   const params = {
     season: "20212022",
@@ -15,7 +16,7 @@ function Player() {
   };
 
   // On Component Mount
-  useEffect(() => {
+  useEffect(() => { 
     /**
      * Sets the goals state to a collection acquired from the NHL stats API based on the given
      * parameters.
@@ -35,7 +36,7 @@ function Player() {
       setLoading(false);
     }
     setGoalsFromNhlApi(params);
-  }, []);
+  }, []); // eslint-disable-line react-hooks/exhaustive-deps
 
   return (
     <>

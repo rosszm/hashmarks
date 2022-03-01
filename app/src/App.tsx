@@ -8,7 +8,7 @@ function App() {
     <Routes>
       <Route path="hashmarks">
         <Route index element={<Home />} />
-        <Route path="hashmarks/player" element={<Player />} />
+        <Route path="player" element={<Player />} />
         <Route path="*" element={<NotFound />} />
       </Route>
     </Routes>
