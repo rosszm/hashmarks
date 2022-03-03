@@ -4,7 +4,6 @@ Unit testing for the nhlapi.proxy module.
 
 from fastapi.testclient import TestClient
 from nhlapi.proxy import app
-from datetime import date
 
 
 client = TestClient(app)
@@ -24,6 +23,18 @@ def test_route_query_param():
     assert data.get("splits")[0].get("season") == "19801981"
 
 
+class TestCORS:
+    def test_invalid_origin(self):
+        origin = "http://example.com"
+        response =  client.get("/stats/v1/people/8447400/", headers={"Origin": origin})
+        assert response.headers.get("access-control-allow-origin") == None
+
+    def test_valid_origin(self):
+        origin = "https://rosszm.github.io"
+        response =  client.get("/stats/v1/people/8447400/", headers={"Origin": origin})
+        assert response.headers.get("access-control-allow-origin") == origin
+
+    
 class TestStatsRoute:
     def test_valid_endpoint(self):
         response = client.get("/stats/v1/venues/5100")

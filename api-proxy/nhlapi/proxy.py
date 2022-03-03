@@ -3,6 +3,7 @@ A FastAPI server that acts as a proxy for the NHL API.
 """
 
 from fastapi import FastAPI, Request, Response
+from fastapi.middleware.cors import CORSMiddleware
 from nhlapi.util import forward_request
 
 
@@ -12,6 +13,9 @@ NHL_RECORDS_API = "https://records.nhl.com/site/api"
 NHL_SUGGEST_API = "https://suggest.svc.nhl.com/svc/suggest"
 
 app = FastAPI()
+
+origins = ["https://rosszm.github.io"]
+app.add_middleware(CORSMiddleware, allow_origins=origins)
 
 
 @app.get("/stats/{endpoint:path}")

@@ -1,40 +1,14 @@
-import contextlib
-import threading
-import time
 import httpx
 import pytest
 import uvicorn
 from nhlapi.util import forward_request
-from fastapi import FastAPI, HTTPException, Request, Query
+from fastapi import FastAPI, HTTPException, Request
+from tests.helpers.helper import ThreadedServer
 
 
 # Define the host and port to use for mock APIs
 MOCK_HOST = "0.0.0.0"
 MOCK_PORT = 5000
-
-
-class ThreadedServer(uvicorn.Server):
-    """
-    Extention of `uvicorn.Server` that allows the server to be run on a separate thread.
-    """
-    def install_signal_handlers(self):
-        pass
-
-    @contextlib.contextmanager
-    def run_in_thread(self):
-        """
-        Runs this server in a seaparate thread.
-        """
-        thread = threading.Thread(target=self.run)
-        thread.start()
-        self.config.app
-        try:
-            while not self.started:
-                time.sleep(3e-3)
-            yield
-        finally:
-            self.should_exit = True
-            thread.join()
 
 
 @pytest.fixture(scope="class")
@@ -54,8 +28,8 @@ def mock_api():
         return {"path_params": path_params, "queries": queries}
 
     config = uvicorn.Config(app, MOCK_HOST, MOCK_PORT, log_level="info")
-    api = ThreadedServer(config)
-    with api.run_in_thread():
+    server = ThreadedServer(config)
+    with server.run_in_thread():
         yield
 
 
