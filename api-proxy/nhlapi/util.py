@@ -36,7 +36,6 @@ def forward_request(api_url: str, request: Request) -> Response:
     assert endpoint != None, "forward_request: request must have the path parameter 'endpoint'"
     
     response = httpx.get(f"{api_url}/{endpoint}?{request.query_params}")
-    print("Forwarded to ", f"{api_url}/{endpoint}?{request.query_params}")
     if response.is_success:
         return response.json()
 

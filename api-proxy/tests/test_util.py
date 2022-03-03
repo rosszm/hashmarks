@@ -50,7 +50,6 @@ def mock_api():
         queries = []
         if q1: queries.append(q1)
         if q2: queries.append(q2)
-        print(queries)
         if len(queries) == 0: queries = None
         return {"path_params": path_params, "queries": queries}
 
