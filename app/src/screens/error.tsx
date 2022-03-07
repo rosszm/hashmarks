@@ -1,3 +1,4 @@
+import { Link } from "react-router-dom";
 
 
 /**
@@ -10,7 +11,7 @@ export function NotFound() {
     <main className="container">
       <h2>Page Not Found</h2>
       <p>The page you are looking for cannot be found at this location.</p>
-      <button>Home Page </button>
+      <Link to="/">Home Page</Link>
     </main>
   )
 }
