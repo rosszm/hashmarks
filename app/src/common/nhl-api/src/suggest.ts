@@ -36,7 +36,7 @@ import {strict as assert} from "assert";
   /**
    * Creates a new player object from a player suggestion string. Player suggestion strings
    * must be same format as the suggestions received from the NHL Suggest API.
-   * 
+   *
    * @param str the player suggestion string
    * @returns a player object
    */
@@ -59,7 +59,7 @@ import {strict as assert} from "assert";
 
 /**
  * NHL Suggest API Client.
- * 
+ *
  * This client wraps the NHL Suggest API and provides methods to retrieve player suggestions.
  */
  export class NhlSuggestClient {
@@ -74,7 +74,7 @@ import {strict as assert} from "assert";
 
   /**
    * Retrieves active player suggestions from the NHL suggest API based on some search text.
-   * 
+   *
    * @param text the search text
    * @param max the maximum number of suggestions to return
    * @returns a collection of `max` player suggestions

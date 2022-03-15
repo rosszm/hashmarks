@@ -64,7 +64,7 @@ export interface Play {
 
 /**
  * NHL Stats API Client.
- * 
+ *
  * This client wraps the NHL Stats API and provides useful methods to query stats data.
  */
 export class NhlStatsClient {
@@ -79,7 +79,7 @@ export class NhlStatsClient {
 
   /**
    * Retrieves a collection of all the teams from the API.
-   * 
+   *
    * @returns a promise to a collection of teams.
    */
   getTeams(): Promise<Team[]> {
@@ -92,10 +92,10 @@ export class NhlStatsClient {
       })
       .then(response => response.teams);
   }
-  
+
   /**
    * Retrieves a schedule of games from the API based on a set of parameters.
-   * 
+   *
    * @param params the query parameters
    * @returns a promise to a collection of games.
    */
@@ -118,7 +118,7 @@ export class NhlStatsClient {
 
   /**
    * Retrieves all the plays/events in a given game from the API.
-   * 
+   *
    * @param gamePk the game primary key
    * @returns the game play/event data
    */

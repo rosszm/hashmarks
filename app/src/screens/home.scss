@@ -22,9 +22,9 @@
 
         @include media.mobile { font-size: 14vw; }
     }
-    h2 { 
+    h2 {
         margin-top: 0;
-        margin-bottom: 50px; 
+        margin-bottom: 50px;
 
         @include media.mobile { font-size: 4.5vw; }
     }

@@ -3,7 +3,7 @@ import { Link } from "react-router-dom";
 
 /**
  * The NotFound Component
- * 
+ *
  * This component represents the page that is displayed on 404 Not Found Errors.
  */
 export function NotFound() {

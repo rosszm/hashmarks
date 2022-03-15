@@ -10,8 +10,8 @@ def forward_request(api_url: str, request: Request) -> Response:
     """
     Forwards a request to an API at the given url. Requires that the request has a path parameter 
     called `endpoint` that represents the endpoint from the API's URL.
-    
-    Example: 
+
+    Example:
         The following passes the entire path after `/home` to this function:
     ```py
         @app.get("/home/{endpoint:path}")
@@ -32,9 +32,9 @@ def forward_request(api_url: str, request: Request) -> Response:
         httpx.RequestError: If an error occurs issuing a request to the endpoint
     """
     endpoint = request.path_params.get("endpoint")
-    
+
     assert endpoint != None, "forward_request: request must have the path parameter 'endpoint'"
-    
+
     response = httpx.get(f"{api_url}/{endpoint}?{request.query_params}")
     if response.is_success:
         return response.json()

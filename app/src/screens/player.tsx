@@ -3,24 +3,24 @@ import { NhlStatsClient, Play, ScheduleParams } from "../common/nhl-api/src/stat
 
 
 function Player() {
-  // eslint-disable-next-line 
+  // eslint-disable-next-line
   const [goals, setGoals] = useState<Play[]>([]);
   const [loading, setLoading] = useState(true);
-  
-  const nhlStatsClient = new NhlStatsClient("v1"); 
+
+  const nhlStatsClient = new NhlStatsClient("v1");
 
   const params = {
     season: "20212022",
-    gameType: "R", 
+    gameType: "R",
     teamId: 1
   };
 
   // On Component Mount
-  useEffect(() => { 
+  useEffect(() => {
     /**
      * Sets the goals state to a collection acquired from the NHL stats API based on the given
      * parameters.
-     * 
+     *
      * @param params the parameters for the NHL stats API
      * @post Sets `goals` to a new state
      */

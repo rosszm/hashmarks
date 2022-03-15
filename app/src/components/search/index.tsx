@@ -5,16 +5,17 @@ import "./search.scss"
 
 /**
  * The `NhlPlayerSearch` Component.
- * 
- * This component is an input with 
+ *
+ * This component is an input with
  */
 export default function NhlPlayerSearch() {
   const [searchText, setSearchText] = useState("");
   const [players, setPlayers] = useState<SuggestedPlayer[]>([]);
   const [selected, setSelected] = useState(0); // eslint-disable-line
-  const [maxResults, setMaxResults] = useState(8); // eslint-disable-line
+
+  const maxResults = 10; // eslint-disable-line
   const minCharsForSuggestion = 3;
-  
+
   // initialize references to handle the component focus
   const ref = React.useRef<HTMLDivElement>(null);
   const inputRef = React.useRef<HTMLInputElement>(null);
@@ -26,7 +27,7 @@ export default function NhlPlayerSearch() {
     /**
      * Updates the players state with the player suggestions from the NHL Suggest API based on 
      * some search text.
-     * 
+     *
      * @param text the search text
      * @post sets `players` to a new state
      */
@@ -37,7 +38,7 @@ export default function NhlPlayerSearch() {
       else {
         setPlayers([]);
       }
-    } 
+    }
     updatePlayerSuggestions(searchText);
   }, [searchText, maxResults])
 
@@ -60,14 +61,14 @@ export default function NhlPlayerSearch() {
     setSearchText("");
     inputRef.current!.focus();
   }
- 
+
   return (
     <div className="search" ref={ref}>
       <div className={`search-box search-box-focused`}>
         <div className="search-icon" onClick={() => inputRef.current!.focus()}>
           <IoSearch />
         </div>
-        <input className="search-input" 
+        <input className="search-input"
           ref={inputRef}
           value={searchText}
           onChange={({ target: { value } }) => onSearchTextChange(value)}
@@ -79,9 +80,9 @@ export default function NhlPlayerSearch() {
             <IoClose onClick={clearSearchText} />
           </div> : ""
         }
-        
+
       </div>
-      {searchText.length >= minCharsForSuggestion && players.length > 0 ? 
+      {searchText.length >= minCharsForSuggestion && players.length > 0 ?
         <SuggestionList players={players} /> : ""
       }
     </div>
@@ -90,9 +91,9 @@ export default function NhlPlayerSearch() {
 
 /**
  * The SuggestionList Component.
- * 
+ *
  * This component represents a list of suggested players that appears under the player search.
- * 
+ *
  * @param players A list of suggested players
  */
 function SuggestionList({players}: {players: SuggestedPlayer[]}) {
@@ -112,10 +113,10 @@ function SuggestionList({players}: {players: SuggestedPlayer[]}) {
 
 /**
  * The SuggestionListItem Component.
- * 
+ *
  * This component represents an individual player suggestion in a list that appears under the player
  * search.
- * 
+ *
  * @param player the suggested player
  */
 function SuggestionListItem({player}: {player: SuggestedPlayer}) {

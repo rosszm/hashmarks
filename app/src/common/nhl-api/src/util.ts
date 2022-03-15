@@ -43,7 +43,7 @@ export enum PlayType {
   BlockedShot = "BLOCKED_SHOT",
 }
 
-/** 
+/**
  * Returns an HTTP query string from a set of parameters.
  */
 export function getQueryString(params?: Parameters): string {

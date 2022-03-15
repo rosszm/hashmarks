@@ -34,7 +34,7 @@ class TestCORS:
         response =  client.get("/stats/v1/people/8447400/", headers={"Origin": origin})
         assert response.headers.get("access-control-allow-origin") == origin
 
-    
+
 class TestStatsRoute:
     def test_valid_endpoint(self):
         response = client.get("/stats/v1/venues/5100")
@@ -50,7 +50,7 @@ class TestStatsRoute:
         response = client.get("/stats/nonexistant/endpoint")
         assert response.status_code == 404
         assert response.json() == {"detail": "Not Found"}
-    
+
 
 class TestRecordsRoute:
     def test_valid_endpoint(self):

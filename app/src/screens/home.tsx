@@ -3,7 +3,7 @@ import './home.scss';
 
 /**
  * The Home component.
- * 
+ *
  * This component represents the home / splash screen of the app.
  */
 function Home() {
