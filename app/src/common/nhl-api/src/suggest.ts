@@ -1,5 +1,5 @@
 /**
- * This module contains everything relating to the NHL Suggest API. This includes the 
+ * This module contains everything relating to the NHL Suggest API. This includes the
  * `NhlSuggestClient` that is used for querying the API.
  */
 
@@ -63,13 +63,16 @@ import {strict as assert} from "assert";
  * This client wraps the NHL Suggest API and provides methods to retrieve player suggestions.
  */
  export class NhlSuggestClient {
-   /** The base URI of the Suggest API. Uses the API proxy server */
-  _uri = "https://hashmarks-api-proxy.herokuapp.com/suggest";
+  /** The base URI of the Suggest API. Uses the API proxy server */
+  private _uri: string = process.env.REACT_APP_API_URL_PROD! + "/suggest";
   /** The version of the API */
   version: string;
 
   constructor(version: string) {
     this.version = version
+    if (process.env.NODE_ENV !== "production") {
+      this._uri = process.env.REACT_APP_API_URL_DEV! + "/suggest";
+    }
   }
 
   /**

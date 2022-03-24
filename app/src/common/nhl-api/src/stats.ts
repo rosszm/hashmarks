@@ -69,12 +69,15 @@ export interface Play {
  */
 export class NhlStatsClient {
   /** The base URI of the Stats API. Uses the API proxy server */
-  private _uri: string = "https://hashmarks-api-proxy.herokuapp.com/stats";
+  private _uri: string = process.env.REACT_APP_API_URL_PROD! + "/stats";
   /** The version of the API */
   version: string;
 
   constructor(version: string) {
     this.version = version;
+    if (process.env.NODE_ENV !== "production") {
+      this._uri = process.env.REACT_APP_API_URL_DEV! + "/stats";
+    }
   }
 
   /**

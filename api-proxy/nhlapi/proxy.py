@@ -5,6 +5,7 @@ A FastAPI server that acts as a proxy for the NHL API.
 from fastapi import FastAPI, Request, Response
 from fastapi.middleware.cors import CORSMiddleware
 from nhlapi.util import forward_request
+import os
 
 
 # Constants for the different API URLs
@@ -15,6 +16,8 @@ NHL_SUGGEST_API = "https://suggest.svc.nhl.com/svc/suggest"
 app = FastAPI()
 
 origins = ["https://rosszm.github.io"]
+if os.getenv("API_ENV", "production") == "development":
+    origins = ["*"]
 app.add_middleware(CORSMiddleware, allow_origins=origins)
 
 

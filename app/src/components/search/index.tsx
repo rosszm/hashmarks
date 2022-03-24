@@ -25,7 +25,7 @@ export default function NhlPlayerSearch() {
     const nhlSuggestClient = new NhlSuggestClient("v1");
 
     /**
-     * Updates the players state with the player suggestions from the NHL Suggest API based on 
+     * Updates the players state with the player suggestions from the NHL Suggest API based on
      * some search text.
      *
      * @param text the search text
