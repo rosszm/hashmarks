@@ -9,18 +9,17 @@ import "./search.scss"
 /**
  * The `NhlPlayerSearch` Component.
  *
- * This component is an input with
+ * Search input for querying active NHL Players.
  */
 export default function NhlPlayerSearch() {
   const [searchText, setSearchText] = useState("");
   const [players, setPlayers] = useState<SuggestedPlayer[]>([]);
   const [selected, setSelected] = useState({id: -1, index: -1});
 
-  const maxResults = 10; // eslint-disable-line
+  const maxResults = 10;
   const minCharsForSuggestion = 3;
 
-  // initialize references to handle the component focus
-  const ref = React.useRef<HTMLDivElement>(null);
+  // initialize reference to handle input focus
   const inputRef = React.useRef<HTMLInputElement>(null);
 
   const navigate = useNavigate();
