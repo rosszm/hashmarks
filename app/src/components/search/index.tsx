@@ -1,7 +1,10 @@
 import React, { useEffect, useState } from "react";
+import { useNavigate } from 'react-router-dom';
 import { NhlSuggestClient, SuggestedPlayer } from "../../common/nhl-api";
 import { IoSearch, IoClose } from 'react-icons/io5';
+import { SuggestionList } from "./suggestions";
 import "./search.scss"
+
 
 /**
  * The `NhlPlayerSearch` Component.
@@ -11,7 +14,7 @@ import "./search.scss"
 export default function NhlPlayerSearch() {
   const [searchText, setSearchText] = useState("");
   const [players, setPlayers] = useState<SuggestedPlayer[]>([]);
-  const [selected, setSelected] = useState(0); // eslint-disable-line
+  const [selected, setSelected] = useState({id: -1, index: -1});
 
   const maxResults = 10; // eslint-disable-line
   const minCharsForSuggestion = 3;
@@ -19,6 +22,8 @@ export default function NhlPlayerSearch() {
   // initialize references to handle the component focus
   const ref = React.useRef<HTMLDivElement>(null);
   const inputRef = React.useRef<HTMLInputElement>(null);
+
+  const navigate = useNavigate();
 
   // Update player suggestions
   useEffect(() => {
@@ -33,14 +38,25 @@ export default function NhlPlayerSearch() {
      */
     async function updatePlayerSuggestions(text: string) {
       if (text.length >= minCharsForSuggestion) {
-        setPlayers(await nhlSuggestClient.getActivePlayerSuggestions(text, maxResults));
+        setPlayerSuggestions(await nhlSuggestClient.getActivePlayerSuggestions(text, maxResults));
       }
       else {
-        setPlayers([]);
+        setPlayerSuggestions([]);
       }
     }
     updatePlayerSuggestions(searchText);
   }, [searchText, maxResults])
+
+  /**
+   * Updates the player suggestion list.
+   * @param players the new player list.
+   */
+   function setPlayerSuggestions(players: SuggestedPlayer[]) {
+    setPlayers(players);
+    if (players.length > 0) {
+      setSelected({id: players[0].id, index: 0})
+    }
+  }
 
   // On mount
   useEffect(() => {
@@ -57,13 +73,45 @@ export default function NhlPlayerSearch() {
     setSearchText(value);
   }
 
+  /** Clears the search query on the given mouse event/ */
   function clearSearchText(event: React.MouseEvent) {
     setSearchText("");
     inputRef.current!.focus();
   }
 
+  /** Sets the selected suggestion based on a given player id. */
+  function selectById(id: number) {
+    let idx = players.findIndex(player => player.id === id);
+    if (idx === -1) return;
+
+    setSelected({id: id, index: idx});
+  }
+
+  /** Sets the selected suggestion based on a given player index. */
+  function selectByIndex(idx: number) {
+    if (idx < 0 || idx >= players.length) return;
+
+    setSelected({id: players[idx].id, index: idx});
+  }
+
   return (
-    <div className="search" ref={ref}>
+    <div className="search" onKeyDown={event => {
+      switch(event.key) {
+        case "ArrowUp":
+          event.preventDefault();
+          selectByIndex(selected.index - 1);
+          break;
+        case "ArrowDown":
+          event.preventDefault();
+          selectByIndex(selected.index + 1);
+          break;
+        case "Enter":
+          event.preventDefault();
+          navigate(`/player/${selected.id}`);
+          break;
+        default: break;
+      }
+    }}>
       <div className={`search-box search-box-focused`}>
         <div className="search-icon" onClick={() => inputRef.current!.focus()}>
           <IoSearch />
@@ -83,50 +131,8 @@ export default function NhlPlayerSearch() {
 
       </div>
       {searchText.length >= minCharsForSuggestion && players.length > 0 ?
-        <SuggestionList players={players} /> : ""
+        <SuggestionList players={players} selected={selected} selectById={selectById}/> : ""
       }
     </div>
   );
-}
-
-/**
- * The SuggestionList Component.
- *
- * This component represents a list of suggested players that appears under the player search.
- *
- * @param players A list of suggested players
- */
-function SuggestionList({players}: {players: SuggestedPlayer[]}) {
-  return (
-    <table className="search-suggestion-box">
-      <thead>
-        <tr>
-          <th>Name</th><th>Position</th><th>Team</th><th>#</th>
-        </tr>
-      </thead>
-      <tbody>
-        {players.map(player => <SuggestionListItem key={player.id} player={player} />)}
-      </tbody>
-    </table>
-  )
-}
-
-/**
- * The SuggestionListItem Component.
- *
- * This component represents an individual player suggestion in a list that appears under the player
- * search.
- *
- * @param player the suggested player
- */
-function SuggestionListItem({player}: {player: SuggestedPlayer}) {
-  console.log(player)
-  return (
-    <tr className="search-suggestion">
-      <td>{player.firstName} {player.lastName}</td>
-      <td>{player.position}</td>
-      <td>{player.team}</td>
-      <td>{player.number}</td>
-    </tr>
-  )
 }
