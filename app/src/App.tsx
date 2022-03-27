@@ -1,6 +1,6 @@
 import { Route, Routes } from "react-router-dom";
 import Home from "./screens/home";
-import Player from "./screens/player";
+import PlayerPage from "./screens/player";
 import { NotFound } from "./screens/error"
 import { useEffect } from "react";
 import { NhlSuggestClient } from "./common/nhl-api";
@@ -16,7 +16,7 @@ function App() {
     <Routes>
       <Route path="/">
         <Route index element={<Home />} />
-        <Route path="player" element={<Player />} />
+        <Route path="player/:id" element={<PlayerPage />} />
         <Route path="*" element={<NotFound />} />
       </Route>
     </Routes>

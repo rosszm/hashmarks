@@ -4,7 +4,8 @@
  * clarity.
  */
 
- import { Parameters } from "./base";
+ import Player from "../../../screens/player";
+import { Parameters } from "./base";
  import { getQueryString } from "./util";
 
 
@@ -41,6 +42,13 @@ export interface Plays {
 
 /** A play that occurs during a game */
 export interface Play {
+  /** The players involved in the play. */
+  players: {
+    player: {
+      id: number;
+    },
+    playerType: string;
+  }[];
   /** The result of the play. */
   result: {
     event: string,
@@ -60,6 +68,31 @@ export interface Play {
     x?: number,
     y?: number,
   };
+}
+
+/** An NHL Player. */
+export interface Player {
+  id: number;
+  firstName: string;
+  lastName: string;
+  number: string;
+  birthday: string;
+  age: number;
+  birthCity: string;
+  birthState: string;
+  birthCountry: string;
+  nationality: string;
+  height: string;
+  weight: number;
+  currentTeam: {
+    id: number;
+    name: string;
+  }
+  position: {
+    abbreviation: string;
+    name: string;
+    type: string
+  }
 }
 
 /**
@@ -94,6 +127,21 @@ export class NhlStatsClient {
         return response.json() as Promise<{teams: Team[]}>;
       })
       .then(response => response.teams);
+  }
+
+  /**
+   * Retrieves a specific player from the API.
+   *
+   * @returns a promise to the player data.
+   */
+  getPlayer(id: string): Promise<Player> {
+    return fetch(`${this._uri}/${this.version}/people/${id}`)
+      .then(async response => {
+        if (!response.ok) {
+          throw new Error(response.statusText);
+        }
+        return (await response.json()).people[0];
+      });
   }
 
   /**
