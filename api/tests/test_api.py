@@ -1,9 +1,9 @@
 """
-Unit testing for the nhlapi.proxy module.
+Unit testing for the nhlapi.api module.
 """
 
 from fastapi.testclient import TestClient
-from nhlapi.proxy import app
+from nhlapi.api import app
 
 
 client = TestClient(app)

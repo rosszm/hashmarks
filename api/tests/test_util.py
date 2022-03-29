@@ -1,3 +1,7 @@
+"""
+Unit testing for the utils module.
+"""
+
 import httpx
 import pytest
 import uvicorn

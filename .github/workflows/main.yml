@@ -35,7 +35,7 @@ jobs:
           heroku_api_key: ${{secrets.HEROKU_API_KEY}}
           heroku_app_name: "hashmarks-api-proxy"
           heroku_email: "41898282+github-actions[bot]@users.noreply.github.com"
-          appdir: api-proxy
+          appdir: api
 
   # This job builds the React application on gh pages
   deploy-react-app:

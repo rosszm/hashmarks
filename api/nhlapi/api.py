@@ -4,6 +4,9 @@ A FastAPI server that acts as a proxy for the NHL API.
 
 from fastapi import FastAPI, Request, Response
 from fastapi.middleware.cors import CORSMiddleware
+import strawberry
+from strawberry.fastapi import GraphQLRouter
+from nhlapi.graphql.schema import Query
 from nhlapi.util import forward_request
 import os
 
@@ -13,7 +16,11 @@ NHL_STATS_API = "https://statsapi.web.nhl.com/api"
 NHL_RECORDS_API = "https://records.nhl.com/site/api"
 NHL_SUGGEST_API = "https://suggest.svc.nhl.com/svc/suggest"
 
+schema = strawberry.Schema(Query)
+graphql_app = GraphQLRouter(schema, graphiql=False)
+
 app = FastAPI()
+app.include_router(graphql_app, prefix="/graphql")
 
 origins = ["https://rosszm.github.io"]
 if os.getenv("API_ENV", "production") == "development":
