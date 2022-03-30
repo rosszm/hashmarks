@@ -1,5 +1,5 @@
 import { useNavigate } from 'react-router-dom';
-import { SuggestedPlayer } from "../../common/nhl-api";
+import { PlayerSuggestion, PlayerSuggestionData } from "./search";
 
 
 /**
@@ -8,13 +8,13 @@ import { SuggestedPlayer } from "../../common/nhl-api";
  * This component represents a list of suggested players that appears under the player search.
  */
 export function SuggestionList({
-  players,
+  data,
   selected,
-  selectById,
+  select,
 }: {
-  players: SuggestedPlayer[],
-  selected: {id: number, index: number},
-  selectById: (id: number) => void,
+  data: PlayerSuggestionData | undefined,
+  selected: number | null,
+  select: (id: number | null) => void,
 }) {
   return (
     <table className="search-suggestion-box">
@@ -24,8 +24,21 @@ export function SuggestionList({
         </tr>
       </thead>
       <tbody>
-        {players.map(player => <SuggestionListItem key={player.id} player={player}
-          selected={{id: selected.id, set: selectById}}/>)}
+        { data && data.playerSuggestions.length > 0 ?
+        data.playerSuggestions.map((player, index) => {
+        const isSelected = () => selected !== null ? selected === index : false;
+        return <SuggestionListItem
+          key={player.id}
+          player={player}
+          onMouseOver={() => select(index)}
+          onMouseOut={() => select(null)}
+          isSelected={isSelected}
+        />;
+        }) :
+        <tr className="search-suggestion suggestion-no-match">
+          <td>No matching players</td>
+        </tr>
+        }
       </tbody>
     </table>
   )
@@ -39,19 +52,24 @@ export function SuggestionList({
  */
 function SuggestionListItem({
   player,
-  selected
+  isSelected,
+  onMouseOver,
+  onMouseOut,
 }: {
-  player: SuggestedPlayer,
-  selected: { id: number, set: (id: number) => void }
+  player: PlayerSuggestion,
+  isSelected: () => boolean,
+  onMouseOver?: () => void,
+  onMouseOut?: () => void,
 }) {
   const navigate = useNavigate();
 
   return (
-    <tr className={`search-suggestion ${selected.id === player.id ? "suggestion-hover": ""}`}
-      onMouseOver={() => selected.set(player.id)}
+    <tr className={`search-suggestion ${isSelected() ? "suggestion-hover": ""}`}
+      onMouseOver={onMouseOver}
+      onMouseOut={onMouseOut}
       onClick={() => navigate(`/player/${player.id}`)}
     >
-      <td>{player.firstName} {player.lastName}</td>
+      <td>{player.name}</td>
       <td>{player.position}</td>
       <td>{player.team}</td>
       <td>{player.number}</td>

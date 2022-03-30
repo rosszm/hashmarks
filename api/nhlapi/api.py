@@ -16,16 +16,17 @@ NHL_STATS_API = "https://statsapi.web.nhl.com/api"
 NHL_RECORDS_API = "https://records.nhl.com/site/api"
 NHL_SUGGEST_API = "https://suggest.svc.nhl.com/svc/suggest"
 
-schema = strawberry.Schema(Query)
-graphql_app = GraphQLRouter(schema, graphiql=False)
 
 app = FastAPI()
-app.include_router(graphql_app, prefix="/graphql")
 
 origins = ["https://rosszm.github.io"]
 if os.getenv("API_ENV", "production") == "development":
     origins = ["*"]
-app.add_middleware(CORSMiddleware, allow_origins=origins)
+app.add_middleware(CORSMiddleware, allow_origins=origins,  allow_methods=("GET", "POST", "OPTIONS"))
+
+schema = strawberry.Schema(Query)
+graphql_app = GraphQLRouter(schema, graphiql=False)
+app.include_router(graphql_app, prefix="/graphql")
 
 
 @app.get("/stats/{endpoint:path}")

@@ -1,3 +1,4 @@
+from py import code
 import strawberry
 from enum import Enum
 from nhlapi.graphql.definitions.team import Team
@@ -29,6 +30,15 @@ class Position:
     name: str
     type: str
     abbreviation: str
+
+    @classmethod
+    def from_dict(cls, pos_dict: dict):
+        return cls(
+            code = pos_dict.get("code"),
+            name = pos_dict.get("name"),
+            type = pos_dict.get("type"),
+            abbreviation = pos_dict.get("abbreviation"),
+        )
 
 
 @strawberry.type
@@ -89,7 +99,7 @@ class Player:
             last_name = player_dict.get("lastName"),
             number = player_dict.get("primaryNumber"),
             active = player_dict.get("active"),
-            position = player_dict.get("primaryPosition"),
+            position = Position.from_dict(player_dict.get("primaryPosition")),
             age = player_dict.get("currentAge"),
             birth_date = player_dict.get("birthDate"),
             birth_location = Location(

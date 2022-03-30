@@ -1,4 +1,4 @@
-import NhlPlayerSearch from "../components/search";
+import { NhlPlayerSearch } from "../components/search";
 import './home.scss';
 
 /**
