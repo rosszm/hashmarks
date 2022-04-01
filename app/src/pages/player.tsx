@@ -1,5 +1,6 @@
 import { gql, useQuery } from "@apollo/client";
 import { useParams } from "react-router-dom";
+import { PlayerData } from "../nhlapi/schema";
 import { NotFound } from "./error";
 
 
@@ -18,23 +19,6 @@ const GET_PLAYER = gql`
     }
   }
 `;
-
-/** Represents an NHL Player */
-interface Player {
-  name: string;
-  position: {
-    name: string;
-  }
-  team: {
-    name: string;
-  }
-  number: string;
-}
-
-/** Represents the response data from a player query to the graphQL API. */
-interface PlayerData {
-  player: Player;
-}
 
 
 /**
