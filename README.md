@@ -2,8 +2,8 @@
 
 Web application that allows users to search active NHL players
 and view visualizations for individual player statistics. See
-[system architecture](https://github.com/rosszm/hashmarks/wiki) for more
-detailed design and implementation details.
+[system architecture](https://github.com/rosszm/hashmarks/wiki#system-architecture)
+for more detailed design and implementation details.
 
 [View Demo](https://rosszm.github.io/hashmarks)
 
