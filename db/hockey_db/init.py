@@ -1,6 +1,6 @@
 import psycopg
 from psycopg import sql
-from hockey_db.constants import DB_NAME, DB_USER
+from constants import DB_NAME, DB_USER
 
 
 CREATE_TABLE_QUERIES = [

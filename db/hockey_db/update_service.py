@@ -4,10 +4,9 @@ provides a number of helper functions and a main `update` function that is calle
 service file is run.
 """
 
-from datetime import datetime, timezone
+from datetime import datetime, timedelta
 import psycopg
-from psycopg import AsyncCursor
-from hockey_db.constants import DB_NAME, DB_USER
+from constants import DB_NAME, DB_USER
 import httpx
 
 
@@ -19,17 +18,23 @@ def most_recent_datetime(db_conn_str: str) -> datetime | None:
     Returns the datetime of the most recent game in the database.
     """
     with psycopg.connect(db_conn_str) as conn:
-        date = conn.execute("""
-            SELECT DISTINCT ON (start_datetime) start_datetime
-            FROM game
-            ORDER BY start_datetime DESC
-            """
-        ).fetchone()
-        if date != None:
-            return date[0]
+        exists = conn.execute("""
+            SELECT EXISTS (
+            SELECT FROM pg_tables
+            WHERE schemaname = 'public' AND tablename  = 'game')
+            """).fetchone()[0]
+        if exists:
+            date = conn.execute("""
+                SELECT DISTINCT ON (start_datetime) start_datetime
+                FROM game
+                ORDER BY start_datetime DESC
+                """
+            ).fetchone()
+            if date != None:
+                return date[0]
 
 
-async def update(db_conn_str: str, fm: datetime, to: datetime):
+def update(db_conn_str: str, fm: datetime, to: datetime):
     """
     Updates the database with events between two dates (inclusive).
 
@@ -105,8 +110,6 @@ def get_game(id: int) -> dict | None:
     response = httpx.get(NHL_API_URL + f"/game/{id}/feed/live")
     if response.is_success:
         json = response.json()
-        start_date = datetime.fromisoformat(json["gameData"]["datetime"]["dateTime"][:-1])
-        end_date = datetime.fromisoformat(json["gameData"]["datetime"]["endDateTime"][:-1])
         return {
             "id": json["gamePk"],
             "home_team_id": json["gameData"]["teams"]["home"]["id"],
@@ -114,8 +117,8 @@ def get_game(id: int) -> dict | None:
             "arena": json["gameData"]["venue"]["name"],
             "type": json["gameData"]["game"]["type"],
             "season": json["gameData"]["game"]["season"],
-            "start_datetime": start_date,
-            "end_datetime": end_date,
+            "start_datetime": json["gameData"]["datetime"]["dateTime"],
+            "end_datetime": json["gameData"]["datetime"]["endDateTime"],
             "events": json["liveData"]["plays"]["allPlays"]
         }
 
@@ -141,6 +144,7 @@ def insert_events(game: dict, cur: psycopg.Cursor):
             event["about"]["period"],
             event["about"]["periodType"]]).fetchone()[0]
 
+        event["about"]["periodTime"]
         event["id"] = cur.execute("""
             INSERT INTO event
             (index, game_id, type, x, y, period_id, period_time, datetime)
@@ -154,7 +158,7 @@ def insert_events(game: dict, cur: psycopg.Cursor):
             event["coordinates"].get("x"),
             event["coordinates"].get("y"),
             period_id,
-            event["about"]["periodTime"],
+            "00:" + event["about"]["periodTime"],
             event["about"]["dateTime"]]).fetchone()[0]
 
         event["id"] = cur.execute("""
@@ -192,4 +196,7 @@ def insert_involved_players(event: dict, cur: psycopg.Cursor):
 if __name__ == "__main__":
     conn_str = f"dbname={DB_NAME} user={DB_USER}"
     last_updated = most_recent_datetime(conn_str)
-    update(conn_str, last_updated, datetime.utcnow())
+    now = datetime.utcnow()
+    if last_updated == None:
+        last_updated = now - timedelta(days=1)
+    update(conn_str, last_updated, now)

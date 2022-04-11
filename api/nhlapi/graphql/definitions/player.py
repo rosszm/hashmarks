@@ -1,4 +1,3 @@
-from py import code
 import strawberry
 from enum import Enum
 from nhlapi.graphql.definitions.team import Team
@@ -44,7 +43,7 @@ class Position:
 @strawberry.type
 class Player:
     """
-    Represents an NHL Player
+    Represents an NHL Player.
     """
     id: int
     first_name: str
