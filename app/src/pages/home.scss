@@ -2,15 +2,15 @@
 @use "../styles/layout.scss";
 
 .splash {
-    width: 60vw;
+    width: 80vw;
+    margin-bottom: 400px;
     max-width: layout.$max-width;
     padding-top: 30px;
     justify-content: flex-start;
     text-align: center;
 
-    @include media.mobile { width: 85vw; }
-    @include media.tablet { width: 75vw; }
-    @include media.desktop { padding-top: 15vh; }
+    @include media.mobile { width: 90vw; }
+    @include media.tablet { width: 80vw; }
 }
 
 .splash-title {
@@ -30,4 +30,3 @@
         @include media.mobile { font-size: 4.5vw; }
     }
 }
-

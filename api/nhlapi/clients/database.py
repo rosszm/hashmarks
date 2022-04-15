@@ -1,4 +1,3 @@
-from datetime import datetime
 import psycopg
 from psycopg.rows import dict_row
 
@@ -11,8 +10,7 @@ def get_player_events(
     player_id: int,
     event_type: str,
     player_type: str,
-    start: datetime,
-    end: datetime):
+    season: str):
     """
     Queries the database for an event involving a specific player over a period of time.
 
@@ -41,7 +39,7 @@ def get_player_events(
             WHERE involved_player.player_id = %s
             AND event.type = %s
             AND involved_player.type = %s
-            AND event.datetime BETWEEN %s::TIMESTAMPTZ AND %s::TIMESTAMPTZ
+            AND game.season = %s
             """,
-            [player_id, event_type, player_type, start, end],
+            [player_id, event_type, player_type, season],
         ).fetchall()

@@ -1,5 +1,6 @@
 import { gql, useQuery } from "@apollo/client";
 import { useParams } from "react-router-dom";
+import { RinkVisualization } from "../components/rink-visualization";
 import { PlayerData } from "../nhlapi/schema";
 import { NotFound } from "./error";
 
@@ -44,6 +45,7 @@ function PlayerPage() {
           <p>{data.player.team.name}</p>
           <p>{data.player.number}</p>
           <p>{data.player.position.name}</p>
+          <RinkVisualization playerId={intId}/>
         </>:
         <NotFound />:
         <p>Loading</p>

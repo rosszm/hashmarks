@@ -1,0 +1,17 @@
+@use "../../styles/layout.scss";
+
+footer {
+    border-top: 1px solid #c0c0c0;
+    margin-top: auto;
+    z-index: -1;
+    width: layout.$max-width;
+    max-width: 90vw;
+}
+
+.disclaimer {
+    color: #6e6e6e;
+    font-size: smaller;
+    margin: 0;
+    padding: 20px;
+    text-align: center;
+}

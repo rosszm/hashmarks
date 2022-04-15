@@ -18,6 +18,8 @@ idna==3.3
 iniconfig==1.1.1
 packaging==21.3
 pluggy==1.0.0
+psycopg==3.0.11
+psycopg-binary==3.0.11
 py==1.11.0
 pydantic==1.9.0
 Pygments==2.11.2
@@ -34,7 +36,7 @@ sniffio==1.2.0
 starlette==0.17.1
 strawberry-graphql==0.103.9
 tomli==2.0.1
-typing-extensions==4.1.1
+typing_extensions==4.1.1
 urllib3==1.26.8
 uvicorn==0.17.5
 watchgod==0.7

@@ -38,12 +38,11 @@ class Query:
         player_id: int,
         event_type: str,
         player_type: str,
-        start_date: datetime,
-        end_date: datetime
+        season: str
     ) -> list[Event]:
         """
         Returns a list of events that were performed by a given player and occur from the start date
         to the end date.
         """
-        events = db.get_player_events(player_id, event_type, player_type, start_date, end_date)
+        events = db.get_player_events(player_id, event_type, player_type, season)
         return [Event.from_dict(event) for event in events]
