@@ -1,5 +1,5 @@
 import { gql, useQuery } from "@apollo/client";
-import { useRef, useState } from "react";
+import { useState } from "react";
 import { EventData } from "../../nhlapi/schema"
 import { RinkChart } from "./rink-chart";
 
@@ -37,9 +37,9 @@ interface GetEventArgs {
  * The Hockey Rink Visualization.
  */
 export function RinkVisualization({playerId}: {playerId: number}) {
-  const [eventType, setEventType] = useState("GOAL");
-  const [playerType, setPlayerType] = useState("Scorer");
-  const [season, setSeason] = useState("2021-2022");
+  const [eventType, setEventType] = useState("GOAL"); // eslint-disable-line @typescript-eslint/no-unused-vars
+  const [playerType, setPlayerType] = useState("Scorer"); // eslint-disable-line @typescript-eslint/no-unused-vars
+  const [season, setSeason] = useState("2021-2022"); // eslint-disable-line @typescript-eslint/no-unused-vars
 
   const { data } = useQuery<EventData, GetEventArgs>(
     GET_PLAYER_EVENTS,

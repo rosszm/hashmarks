@@ -1,6 +1,6 @@
 import { gql, useQuery } from "@apollo/client";
 import { useEffect } from "react";
-import { useParams, useNavigate } from "react-router-dom";
+import { useParams } from "react-router-dom";
 import { RinkVisualization } from "../components/rink-visualization";
 import { PlayerData } from "../nhlapi/schema";
 import { PlayerNotFound } from "./error";
@@ -31,7 +31,6 @@ const GET_PLAYER = gql`
  */
 function PlayerPage() {
   const { id } = useParams();
-  const navigate = useNavigate();
   const intId = parseInt(id!);
 
   const { data } = useQuery<PlayerData, {id: number}>(
@@ -59,6 +58,7 @@ function PlayerPage() {
             <img
               className="player-portrait"
               src={`https://cms.nhl.bamgrid.com/images/headshots/current/168x168/${intId}@2x.jpg`}
+              alt=""
               />
             <div>
               <h1>{data.player.name}</h1>
