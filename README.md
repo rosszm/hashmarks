@@ -18,7 +18,7 @@ It is highly recommended you use a virtual environment for installing and
 running the separate projects. See
 [Creating Virtual Environments](https://docs.python.org/3/library/venv.html#creating-virtual-environments).
 
-Note: the database service and API are configured to use the root user. Use `sudo -i` to run the
+Note: the database service and API are configured to use the root user. Use `sudo bash` to run the
 setup in a root user shell. Alternatively, instances of "root" can be replace with the current user.
 
 ### Clone the repository and open directory
