@@ -17,7 +17,7 @@ NHL_RECORDS_API = "https://records.nhl.com/site/api"
 NHL_SUGGEST_API = "https://suggest.svc.nhl.com/svc/suggest"
 
 
-app = FastAPI()
+app = FastAPI(root_path="/hashmarks")
 
 origins = ["https://rosszm.github.io"]
 if os.getenv("API_ENV", "production") == "development":
