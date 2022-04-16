@@ -3,7 +3,7 @@ from psycopg.rows import dict_row
 
 
 DB_NAME = "hockey"
-DB_USER = "postgres"
+DB_USER = "root"
 
 
 def get_player_events(

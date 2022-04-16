@@ -1,8 +1,9 @@
 import { gql, useQuery } from "@apollo/client";
-import { useParams } from "react-router-dom";
+import { useEffect } from "react";
+import { useParams, useNavigate } from "react-router-dom";
 import { RinkVisualization } from "../components/rink-visualization";
 import { PlayerData } from "../nhlapi/schema";
-import { NotFound } from "./error";
+import { PlayerNotFound } from "./error";
 import "./player.scss";
 
 
@@ -30,12 +31,24 @@ const GET_PLAYER = gql`
  */
 function PlayerPage() {
   const { id } = useParams();
+  const navigate = useNavigate();
   const intId = parseInt(id!);
 
   const { data } = useQuery<PlayerData, {id: number}>(
     GET_PLAYER,
     {variables: {id: intId ? intId : -1}}
   );
+
+  useEffect(() => {
+    if (data) {
+      if (data.player) {
+        document.title = `${data.player.name} Stats Visualization - Hashmarks`;
+      }
+      else {
+        document.title = `Player Not Found - Hashmarks`;
+      }
+    }
+  }, [data])
 
   return (
     <>
@@ -56,7 +69,7 @@ function PlayerPage() {
           </div>
           <RinkVisualization playerId={intId}/>
         </>:
-        <NotFound />:
+        <PlayerNotFound />:
         <p>Loading</p>
     }
     </>
