@@ -1,6 +1,10 @@
 import { gql, useQuery } from "@apollo/client";
-import { useParams } from "react-router-dom";
-import { NotFound } from "./error";
+import { useEffect } from "react";
+import { useParams, useNavigate } from "react-router-dom";
+import { RinkVisualization } from "../components/rink-visualization";
+import { PlayerData } from "../nhlapi/schema";
+import { PlayerNotFound } from "./error";
+import "./player.scss";
 
 
 /** The GraphQL query for players. */
@@ -19,23 +23,6 @@ const GET_PLAYER = gql`
   }
 `;
 
-/** Represents an NHL Player */
-interface Player {
-  name: string;
-  position: {
-    name: string;
-  }
-  team: {
-    name: string;
-  }
-  number: string;
-}
-
-/** Represents the response data from a player query to the graphQL API. */
-interface PlayerData {
-  player: Player;
-}
-
 
 /**
  * The `PlayerPage` Component.
@@ -44,6 +31,7 @@ interface PlayerData {
  */
 function PlayerPage() {
   const { id } = useParams();
+  const navigate = useNavigate();
   const intId = parseInt(id!);
 
   const { data } = useQuery<PlayerData, {id: number}>(
@@ -51,17 +39,37 @@ function PlayerPage() {
     {variables: {id: intId ? intId : -1}}
   );
 
+  useEffect(() => {
+    if (data) {
+      if (data.player) {
+        document.title = `${data.player.name} Stats Visualization - Hashmarks`;
+      }
+      else {
+        document.title = `Player Not Found - Hashmarks`;
+      }
+    }
+  }, [data])
+
   return (
     <>
       {data?
         data.player ?
         <>
-          <h1>{data.player.name}</h1>
-          <p>{data.player.team.name}</p>
-          <p>{data.player.number}</p>
-          <p>{data.player.position.name}</p>
+          <div className="player-info">
+            <img
+              className="player-portrait"
+              src={`https://cms.nhl.bamgrid.com/images/headshots/current/168x168/${intId}@2x.jpg`}
+              />
+            <div>
+              <h1>{data.player.name}</h1>
+              <p>{data.player.team.name}</p>
+              <p>#{data.player.number}</p>
+              <p>{data.player.position.name}</p>
+            </div>
+          </div>
+          <RinkVisualization playerId={intId}/>
         </>:
-        <NotFound />:
+        <PlayerNotFound />:
         <p>Loading</p>
     }
     </>

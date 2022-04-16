@@ -23,6 +23,7 @@ origins = ["https://rosszm.github.io"]
 if os.getenv("API_ENV", "production") == "development":
     origins = ["*"]
 app.add_middleware(CORSMiddleware, allow_origins=origins,  allow_methods=("GET", "POST", "OPTIONS"))
+print("environment:", os.getenv("API_ENV", "production"))
 
 schema = strawberry.Schema(Query)
 graphql_app = GraphQLRouter(schema, graphiql=False)

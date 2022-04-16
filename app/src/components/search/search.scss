@@ -1,7 +1,7 @@
 /// This module contains all the styling for the player search component.
 
 @use "../../styles/media.scss";
-
+@use "../../styles/layout.scss";
 
 .search {
     width: 100%;
@@ -54,9 +54,12 @@
 
 /// The search suggestions
 .search-suggestion-box {
-    width: calc(100% - 80px);
-    margin-left: 40px;
-    margin-right: 40px;
+    background-color: #fff;
+    position: absolute;
+    width: 80vw;
+    max-width: layout.$max-width;
+    margin-left: 2px;
+    margin-right: 2px;
     padding: 0;
     border-bottom-left-radius: 8px;
     border-bottom-right-radius: 8px;
@@ -66,14 +69,7 @@
     user-select: none;
 
     @include media.mobile {
-        margin: 0;
-        margin-left: 2px;
-        width: 100%;
-    }
-    @include media.tablet {
-        margin: 0;
-        margin-left: 2px;
-        width: 100%;
+        width: 90vw;
     }
 
     th {

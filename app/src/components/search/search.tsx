@@ -4,6 +4,7 @@ import { IoSearch, IoClose } from 'react-icons/io5';
 import { SuggestionList } from "./suggestions";
 import "./search.scss"
 import { gql, useQuery } from "@apollo/client";
+import { PlayerSuggestionData } from "../../nhlapi/schema";
 
 
 /** The GraphQL query for searching players. */
@@ -18,22 +19,6 @@ const SEARCH_PLAYER = gql`
     }
   }
 `;
-
-
-/** Represents an individual player suggestion. */
-export interface PlayerSuggestion {
-  id: number;
-  name: string;
-  position: string;
-  team: string;
-  number: string;
-}
-
-
-/** Represents the data returned from a player suggestion query to the graphQL API. */
-export interface PlayerSuggestionData {
-  playerSuggestions: PlayerSuggestion[]
-}
 
 
 /**

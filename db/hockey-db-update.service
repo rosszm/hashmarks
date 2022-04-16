@@ -1,0 +1,10 @@
+[Unit]
+Description=Update service for the Hockey DB system
+
+[service]
+Type=simple
+Restart=always
+ExecStart=/opt/hockey-db-update.sh
+
+[Install]
+WantedBy=multi-user.target
