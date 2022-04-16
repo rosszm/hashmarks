@@ -44,10 +44,9 @@ def update(db_conn_str: str, fm: datetime, to: datetime):
         to: the end date
     """
     game_ids = get_scheduled_game_ids(fm, to)
-    with psycopg.connect(db_conn_str) as conn:
-         with conn.cursor() as cur:
-            for id in game_ids:
-                insert_game(id, cur)
+    for id in game_ids:
+        with psycopg.connect(db_conn_str) as conn:
+            insert_game(id, conn)
 
 
 def get_scheduled_game_ids(fm: datetime, to: datetime) -> set:
@@ -66,7 +65,7 @@ def get_scheduled_game_ids(fm: datetime, to: datetime) -> set:
     return games
 
 
-def insert_game(id: int, cur: psycopg.Cursor):
+def insert_game(id: int, conn: psycopg.Connection):
     """
     Inserts the game into the database.
 
@@ -78,7 +77,7 @@ def insert_game(id: int, cur: psycopg.Cursor):
     if game == None:
         return None
 
-    cur.execute("""
+    cur = conn.execute("""
         INSERT INTO arena (name) VALUES (%s)
         ON CONFLICT (name) DO NOTHING
         """, [game["arena"]])
@@ -86,8 +85,8 @@ def insert_game(id: int, cur: psycopg.Cursor):
 
     cur.execute("""
         INSERT INTO game
-        (id, home_team_id, away_team_id, arena_id, type, season, start_datetime, end_datetime)
-        VALUES (%s, %s, %s, %s, %s, %s, %s, %s)
+        (id, home_team_id, away_team_id, arena_id, type, season, datetime)
+        VALUES (%s, %s, %s, %s, %s, %s, %s)
         ON CONFLICT (id)
         DO NOTHING;
         """, [
@@ -97,8 +96,7 @@ def insert_game(id: int, cur: psycopg.Cursor):
         arena_id,
         game["type"],
         game["season"],
-        game["start_datetime"],
-        game["end_datetime"]
+        game["datetime"]
     ])
     insert_events(game, cur)
 
@@ -117,8 +115,7 @@ def get_game(id: int) -> dict | None:
             "arena": json["gameData"]["venue"]["name"],
             "type": json["gameData"]["game"]["type"],
             "season": json["gameData"]["game"]["season"],
-            "start_datetime": json["gameData"]["datetime"]["dateTime"],
-            "end_datetime": json["gameData"]["datetime"]["endDateTime"],
+            "datetime": json["gameData"]["datetime"]["dateTime"],
             "events": json["liveData"]["plays"]["allPlays"]
         }
 
@@ -144,13 +141,11 @@ def insert_events(game: dict, cur: psycopg.Cursor):
             event["about"]["period"],
             event["about"]["periodType"]]).fetchone()[0]
 
-        event["about"]["periodTime"]
-        event["id"] = cur.execute("""
+        cur.execute("""
             INSERT INTO event
             (index, game_id, type, x, y, period_id, period_time, datetime)
             VALUES (%s, %s, %s, %s, %s, %s, %s, %s)
             ON CONFLICT (index, game_id) DO NOTHING
-            RETURNING id
             """, [
             event["about"]["eventIdx"],
             game["id"],
@@ -159,7 +154,7 @@ def insert_events(game: dict, cur: psycopg.Cursor):
             event["coordinates"].get("y"),
             period_id,
             "00:" + event["about"]["periodTime"],
-            event["about"]["dateTime"]]).fetchone()[0]
+            event["about"]["dateTime"]])
 
         event["id"] = cur.execute("""
             SELECT id FROM event WHERE game_id = %s AND index = %s

@@ -3,6 +3,7 @@ import { useParams } from "react-router-dom";
 import { RinkVisualization } from "../components/rink-visualization";
 import { PlayerData } from "../nhlapi/schema";
 import { NotFound } from "./error";
+import "./player.scss";
 
 
 /** The GraphQL query for players. */
@@ -41,10 +42,18 @@ function PlayerPage() {
       {data?
         data.player ?
         <>
-          <h1>{data.player.name}</h1>
-          <p>{data.player.team.name}</p>
-          <p>{data.player.number}</p>
-          <p>{data.player.position.name}</p>
+          <div className="player-info">
+            <img
+              className="player-portrait"
+              src={`https://cms.nhl.bamgrid.com/images/headshots/current/168x168/${intId}@2x.jpg`}
+              />
+            <div>
+              <h1>{data.player.name}</h1>
+              <p>{data.player.team.name}</p>
+              <p>#{data.player.number}</p>
+              <p>{data.player.position.name}</p>
+            </div>
+          </div>
           <RinkVisualization playerId={intId}/>
         </>:
         <NotFound />:

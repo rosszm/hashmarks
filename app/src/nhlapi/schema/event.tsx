@@ -8,5 +8,5 @@ export interface Event {
 
 /** Represents the response data from an event query to the graphQL API. */
 export interface EventData {
-  events: Event[];
+  playerEvents: Event[];
 }

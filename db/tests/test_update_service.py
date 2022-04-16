@@ -10,7 +10,7 @@ from datetime import datetime, timezone
 import psycopg
 import pytest
 from hockey_db import update_service
-from hockey_db.init import create_tables
+from hockey_db.create_tables import create_tables
 
 DB_NAME = "test"
 DB_USER = "postgres"

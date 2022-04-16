@@ -1,0 +1,16 @@
+@use "../../styles/media.scss";
+
+.rink-vis {
+    margin-bottom: 20px;
+}
+
+.rink-chart {
+    width: 520px;
+    height: 620px;
+    transform: rotate(180deg);
+
+    @include media.mobile {
+        width: 350px;
+        height: 420px;
+    }
+}

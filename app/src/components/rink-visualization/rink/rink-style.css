@@ -1,0 +1,29 @@
+.blue-line{
+  fill: #0033a0;
+}
+
+.red-line{
+  fill: #c8102e;
+}
+
+.red-faceoff{
+  stroke: #c8102e;
+}
+
+.rink-face{
+  stroke: gray;
+  fill: white;
+}
+
+.goal-crease{
+  fill: #41b6e6cc;
+  stroke: #c8102e;
+}
+
+.center-line{
+  fill: #c8102e;
+}
+
+.neutral-faceoff{
+  stroke: #0033a0;
+}

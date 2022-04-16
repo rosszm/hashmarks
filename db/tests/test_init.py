@@ -7,7 +7,7 @@ is active.
 
 import pytest
 import psycopg
-from hockey_db.init import create_tables
+from hockey_db.create_tables import create_tables
 
 DB_NAME = "test"
 DB_USER = "postgres"

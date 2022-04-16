@@ -18,8 +18,7 @@ CREATE_TABLE_QUERIES = [
             arena_id INTEGER NOT NULL,
             type TEXT NOT NULL,
             season INTEGER NOT NULL,
-            start_datetime TIMESTAMPTZ NOT NULL,
-            end_datetime TIMESTAMPTZ NOT NULL,
+            datetime TIMESTAMPTZ NOT NULL,
 
             FOREIGN KEY (arena_id) REFERENCES arena(id)
         )"""
