@@ -25,9 +25,9 @@ def most_recent_datetime(db_conn_str: str) -> datetime | None:
             """).fetchone()[0]
         if exists:
             date = conn.execute("""
-                SELECT DISTINCT ON (start_datetime) start_datetime
+                SELECT DISTINCT ON (datetime) datetime
                 FROM game
-                ORDER BY start_datetime DESC
+                ORDER BY datetime DESC
                 """
             ).fetchone()
             if date != None:
