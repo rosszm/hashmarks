@@ -1,18 +1,18 @@
 {
   "files": {
-    "main.css": "/hashmarks/static/css/main.7626d9c4.css",
-    "main.js": "/hashmarks/static/js/main.aba1812f.js",
+    "main.css": "/hashmarks/static/css/main.49fa4f4f.css",
+    "main.js": "/hashmarks/static/js/main.4865713a.js",
     "static/media/Inter-VariableFont_slnt,wght.ttf": "/hashmarks/static/media/Inter-VariableFont_slnt,wght.b4c30855aff392d7e8dc.ttf",
     "static/media/Quantico-Italic.ttf": "/hashmarks/static/media/Quantico-Italic.038c97654dfe9fac0151.ttf",
     "static/media/Quantico-Regular.ttf": "/hashmarks/static/media/Quantico-Regular.3faac7b366ab13616d56.ttf",
     "static/media/Quantico-Bold.ttf": "/hashmarks/static/media/Quantico-Bold.336fa8a6ceaeb6ab98a8.ttf",
     "static/media/Quantico-BoldItalic.ttf": "/hashmarks/static/media/Quantico-BoldItalic.4db1271ea09381916433.ttf",
     "index.html": "/hashmarks/index.html",
-    "main.7626d9c4.css.map": "/hashmarks/static/css/main.7626d9c4.css.map",
-    "main.aba1812f.js.map": "/hashmarks/static/js/main.aba1812f.js.map"
+    "main.49fa4f4f.css.map": "/hashmarks/static/css/main.49fa4f4f.css.map",
+    "main.4865713a.js.map": "/hashmarks/static/js/main.4865713a.js.map"
   },
   "entrypoints": [
-    "static/css/main.7626d9c4.css",
-    "static/js/main.aba1812f.js"
+    "static/css/main.49fa4f4f.css",
+    "static/js/main.4865713a.js"
   ]
 }
