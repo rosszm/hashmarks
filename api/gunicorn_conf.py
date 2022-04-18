@@ -1,7 +1,7 @@
 from multiprocessing import cpu_count
 
 # socket
-bind = "unix:/opt/hashmarks/api/gunicorn.sock"
+bind = "http://127.0.0.1:8000"
 
 # Worker options
 workers = cpu_count() * 2 + 1
