@@ -19,7 +19,7 @@ NHL_SUGGEST_API = "https://suggest.svc.nhl.com/svc/suggest"
 
 app = FastAPI(root_path="/hashmarks")
 
-origins = ["https://rosszm.github.io"]
+origins = ["https://rosszm.github.io", "https://api.zacharyross.dev", "https://zacharyross.dev"]
 if os.getenv("API_ENV", "production") == "development":
     origins = ["*"]
 app.add_middleware(CORSMiddleware, allow_origins=origins,  allow_methods=("GET", "POST", "OPTIONS"))
@@ -29,6 +29,9 @@ schema = strawberry.Schema(Query)
 graphql_app = GraphQLRouter(schema, graphiql=False)
 app.include_router(graphql_app, prefix="/graphql")
 
+@app.get("/")
+async def stats() -> Response:
+    return "Test Response"
 
 @app.get("/stats/{endpoint:path}")
 async def stats(request: Request) -> Response:
