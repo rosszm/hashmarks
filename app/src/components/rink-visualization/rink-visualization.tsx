@@ -8,8 +8,8 @@ import Select from 'react-select';
 /** The stat types that can be displayed for a skater. */
 const SKATER_STAT_OPTIONS = [
   {value: {eventType: "SHOT", playerType: "Shooter"}, label: "Shots"},
-  {value: {eventType: "GOAL", playerType: "Shooter"}, label: "Goals"},
-  {value: {eventType: "GOAL", playerType: "Shooter"}, label: "Assists"},
+  {value: {eventType: "GOAL", playerType: "Scorer"}, label: "Goals"},
+  {value: {eventType: "GOAL", playerType: "Assist"}, label: "Assists"},
   {value: {eventType: "BLOCKED_SHOT", playerType: "Blocker"}, label: "Blocked Shots"},
   {value: {eventType: "TAKEAWAY", playerType: "PlayerID"}, label: "Takeaways"},
   {value: {eventType: "GIVEAWAY", playerType: "PlayerID"}, label: "Giveaways"},
