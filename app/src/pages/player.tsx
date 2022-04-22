@@ -67,7 +67,7 @@ function PlayerPage() {
               <p>{data.player.position.name}</p>
             </div>
           </div>
-          <RinkVisualization playerId={intId}/>
+          <RinkVisualization playerId={intId} position={data.player.position.name}/>
         </>:
         <PlayerNotFound />:
         <p>Loading</p>

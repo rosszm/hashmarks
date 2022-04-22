@@ -26,7 +26,7 @@ export function RinkChart({data}: {data: EventData | undefined}) {
     let rinkSvg = d3.select(d3Ref.current);
     rinkSvg.selectAll("*").remove();
     RinkMap({parent: rinkSvg, scale: scale})();
-  }, [scale])
+  }, [data, scale])
 
   // Plot event data to the chart.
   useEffect(() => {
