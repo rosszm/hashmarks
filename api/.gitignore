@@ -1,7 +1,0 @@
-# virtual env directory names
-venv/
-env/
-venv-api/
-
-__pycache__/
-.pytest_cache/
